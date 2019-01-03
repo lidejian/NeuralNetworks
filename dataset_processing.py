@@ -6,8 +6,9 @@ from collections import Counter
 
 import ujson
 from heapq import heappush, heapreplace
+import imp
 
-reload(sys)
+imp.reload(sys)
 sys.setdefaultencoding('utf-8')
 import config
 import random, copy
@@ -39,7 +40,7 @@ def level1_sense_to_label_idx(relations):
     #     print idx, sense
 
     for sense, freq in counter.most_common():
-        print sense, freq
+        print(sense, freq)
 
 
 def _generate_one_vs_others_data_set_imp(relations, level1_type, secs, data_type="train"):
@@ -91,7 +92,7 @@ def _generate_one_vs_others_data_set_imp(relations, level1_type, secs, data_type
         if size <= len(neg_examples):
             neg_examples = random.sample(neg_examples, size)
 
-    print "%s: pos: %d vs neg: %s" % (data_type, len(pos_examples), len(neg_examples))
+    print("%s: pos: %d vs neg: %s" % (data_type, len(pos_examples), len(neg_examples)))
 
     with \
         open("data/binary/PDTB_imp/%s/%s/arg1.tok" % (level1_type, data_type), "w") as fout_arg1, \
@@ -165,7 +166,7 @@ def _generate_one_vs_others_data_set_exp(relations, level1_type, secs, data_type
         if size <= len(neg_examples):
             neg_examples = random.sample(neg_examples, size)
 
-    print "%s: pos: %d vs neg: %s" % (data_type, len(pos_examples), len(neg_examples))
+    print("%s: pos: %d vs neg: %s" % (data_type, len(pos_examples), len(neg_examples)))
 
     with \
             open("data/binary/PDTB_exp/%s/%s/arg1.tok" % (level1_type, data_type), "w") as fout_arg1, \
@@ -210,7 +211,7 @@ def generate_PDTB_imp_one_vs_others_data_set(relations):
 
     # for level1 in ["Comparison", "Contingency", "Expansion", "Temporal", "ExpEntRel"]:
     for level1 in ["ExpEntRel"]:
-        print "==> %s" % level1
+        print("==> %s" % level1)
         _generate_one_vs_others_data_set_imp(relations, level1, train_sec, "train")
         _generate_one_vs_others_data_set_imp(relations, level1, dev_sec, "dev")
         _generate_one_vs_others_data_set_imp(relations, level1, test_sec, "test")
@@ -248,7 +249,7 @@ def generate_PDTB_exp_one_vs_others_data_set(relations):
 
     # for level1 in ["Comparison", "Contingency", "Expansion", "Temporal", "ExpEntRel"]:
     for level1 in ["Comparison", "Contingency", "Expansion", "Temporal", "ExpEntRel"]:
-        print "==> %s" % level1
+        print("==> %s" % level1)
         _generate_one_vs_others_data_set_exp(copy.deepcopy(relations), level1, train_sec, "train")
         _generate_one_vs_others_data_set_exp(copy.deepcopy(relations), level1, dev_sec, "dev")
         _generate_one_vs_others_data_set_exp(copy.deepcopy(relations), level1, test_sec, "test")
@@ -319,10 +320,10 @@ def _generate_four_way_dataset_PDTB_imp(relations, wanted_secs, data_type):
         counter[sense] += 1
 
 
-    print "##" * 40
-    print data_type
+    print("##" * 40)
+    print(data_type)
     for sense, freq in counter.most_common():
-        print "%s: %d" % (sense, freq)
+        print("%s: %d" % (sense, freq))
 
 
     with \
@@ -360,10 +361,10 @@ def generate_four_way_dataset_BLLIP(k=100000):
     Comparisons = _sample_relations(relations, "Comparison", num_Comparison)
     Temporals = _sample_relations(relations, "Temporal", num_Temporal)
 
-    print "Expansion: %d" % (len(Expansions))
-    print "Contingency: %d" % (len(Contingencys))
-    print "Comparison: %d" % (len(Comparisons))
-    print "Temporal: %d" % (len(Temporals))
+    print("Expansion: %d" % (len(Expansions)))
+    print("Contingency: %d" % (len(Contingencys)))
+    print("Comparison: %d" % (len(Comparisons)))
+    print("Temporal: %d" % (len(Temporals)))
 
     with \
         open("data/four_way/BLLIP_exp/train/arg1.tok", "w") as fout_arg1, \
@@ -493,21 +494,21 @@ def generate_four_way_PDTB_exp(relations):
                 counter[sense] += 1
                 implicit_relations.append(implicit_relation)
 
-    print "##" * 40
+    print("##" * 40)
     for sense, freq in counter.most_common():
-        print "%s: %d" % (sense, freq)
+        print("%s: %d" % (sense, freq))
 
     Expansions = _sample_relations(implicit_relations, "Expansion", num_Expansion)
     Contingencys = _sample_relations(implicit_relations, "Contingency", num_Contingency)
     Comparisons = _sample_relations(implicit_relations, "Comparison", num_Comparison)
     Temporals = _sample_relations(implicit_relations, "Temporal", num_Temporal)
 
-    print "==" * 40
-    print "  sample result"
-    print "Expansion: %d" % (len(Expansions))
-    print "Contingency: %d" % (len(Contingencys))
-    print "Comparison: %d" % (len(Comparisons))
-    print "Temporal: %d" % (len(Temporals))
+    print("==" * 40)
+    print("  sample result")
+    print("Expansion: %d" % (len(Expansions)))
+    print("Contingency: %d" % (len(Contingencys)))
+    print("Comparison: %d" % (len(Comparisons)))
+    print("Temporal: %d" % (len(Temporals)))
 
     with \
         open("data/four_way/PDTB_exp/train/arg1.tok", "w") as fout_arg1, \
@@ -624,7 +625,7 @@ def _generate_coll_imp_dataset(relation_path, parse_path, data_type):
             continue
 
         # 去掉6种关系
-        Sense = [sense for sense in relation["Sense"] if sense in config.dict_conll_sense_to_label.keys()]
+        Sense = [sense for sense in relation["Sense"] if sense in list(config.dict_conll_sense_to_label.keys())]
         if Sense == []:
             continue
 
@@ -637,10 +638,10 @@ def _generate_coll_imp_dataset(relation_path, parse_path, data_type):
 
         counter[sense] += 1
 
-    print "##" * 40
-    print data_type
+    print("##" * 40)
+    print(data_type)
     for sense, freq in counter.most_common():
-        print "%s: %d" % (sense, freq)
+        print("%s: %d" % (sense, freq))
 
     with \
             open("data/conll/conll_imp/%s/arg1.tok" % (data_type), "w") as fout_arg1, \
@@ -755,7 +756,7 @@ def _generate_coll_exp_dataset(relation_path, parse_path, data_type):
             continue
 
         # 去掉6种关系
-        Sense = [sense for sense in relation["Sense"] if sense in config.dict_conll_sense_to_label.keys()]
+        Sense = [sense for sense in relation["Sense"] if sense in list(config.dict_conll_sense_to_label.keys())]
         if Sense == []:
             continue
 
@@ -768,10 +769,10 @@ def _generate_coll_exp_dataset(relation_path, parse_path, data_type):
 
         counter[sense] += 1
 
-    print "##" * 40
-    print data_type
+    print("##" * 40)
+    print(data_type)
     for sense, freq in counter.most_common():
-        print "%s: %d" % (sense, freq)
+        print("%s: %d" % (sense, freq))
 
     with \
             open("data/conll/conll_exp/%s/arg1.tok" % (data_type), "w") as fout_arg1, \

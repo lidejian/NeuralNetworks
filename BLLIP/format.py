@@ -34,19 +34,19 @@ def format_for_BLLIP(BLLIP_dir):
 
                 idx += 1
                 # print(parse_dict)
-                print(idx, file_name)
+                print((idx, file_name))
 
 
                 try:
                     d = _format_for_one_file(file_name)
                     parse_dict.update(d)
                 except:
-                    print("Error for parsing %s..." % (file_name))
+                    print(("Error for parsing %s..." % (file_name)))
 
 
             to_file = "/home/jianxiang/data/BLLIP_parsed/%s/data/%s_parse.json" % (disk, dir)
             json.dump(parse_dict, open(to_file, "w"))
-            print("==> write to %s" % (to_file))
+            print(("==> write to %s" % (to_file)))
             # json.dump(parse_dict, open("%s/%s/data/%s/parse.json" % (BLLIP_dir, disk, dir), "w"))
 
 
@@ -77,9 +77,9 @@ def _format_for_one_file(file_name):
             parse_dict[doc_id] = {}
             parse_dict[doc_id]["sentences"] = []
 
-            print("==>", doc_id)
+            print(("==>", doc_id))
 
-        print(" ".join(word_list))
+        print((" ".join(word_list)))
 
         sentence = {}
         sentence["parsetree"] = parsetree
@@ -125,7 +125,7 @@ def deal_with_punctuation(BLLIP_dir):
 
 
             idx += 1
-            print(idx, file_name)
+            print((idx, file_name))
             json.dump(parse_dict, open(file_name, "w"))
 
 
@@ -151,7 +151,7 @@ def all_BLIIP_data_to_text_for_word2vec(BLLIP_dir, to_file):
                     fout.write("%s\n" % (" ".join(words)))
 
             idx += 1
-            print(idx, file_name)
+            print((idx, file_name))
 
     fout.close()
 

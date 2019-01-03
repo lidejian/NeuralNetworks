@@ -101,4 +101,4 @@ def batch_iter(data, batch_size, num_epochs, shuffle=True):
 if __name__ == '__main__':
     a = [[0, 1], [0, 1], [1, 0]]
     b = [[1, 0], [1, 1], [1, 0]]
-    print np.concatenate([a, b], 0)
+    print(np.concatenate([a, b], 0))

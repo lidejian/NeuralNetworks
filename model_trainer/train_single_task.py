@@ -2,8 +2,9 @@
 #encoding: utf-8
 import sys
 import colored
-reload(sys)
-sys.setdefaultencoding('utf-8')
+import imp
+imp.reload(sys)
+# sys.setdefaultencoding('utf-8')
 sys.path.append("../")
 from model_trainer.single_task import RNN, Attention_RNN1, Attention_RNN2, Attention_RNN3, Attention_RNN4, \
     Attention_RNN5, Attention_RNN6, CNN
@@ -62,7 +63,7 @@ FLAGS = tf.flags.FLAGS
 FLAGS._parse_flags()
 print("\nParameters:")
 for attr, value in sorted(FLAGS.__flags.items()):
-    print("{}={}".format(attr.upper(), value))
+    print(("{}={}".format(attr.upper(), value)))
 print("")
 
 
@@ -99,8 +100,8 @@ elif "ZH" in train_data_dir:
 else:
     record_file = config.RECORD_PATH + "/single_task/four_way.csv"
 
-print "==> record path: %s" % record_file
-print
+print("==> record path: %s" % record_file)
+print()
 
 evaluation_result = {
     "f1": 0.0,
@@ -151,7 +152,7 @@ else:
 
 num_classes = train_labels.shape[1]
 
-print "num_classes", num_classes
+print("num_classes", num_classes)
 
 # Build vocabulary
 max_document_length = 100
@@ -174,8 +175,8 @@ vocab_embeddings = \
 
 
 
-print("Vocabulary Size: {:d}".format(len(vocab_processor.vocabulary_)))
-print("Train/Dev/Test split: {:d}/{:d}/{:d}".format(len(train_labels), len(dev_labels), len(test_labels)))
+print(("Vocabulary Size: {:d}".format(len(vocab_processor.vocabulary_))))
+print(("Train/Dev/Test split: {:d}/{:d}/{:d}".format(len(train_labels), len(dev_labels), len(test_labels))))
 
 
 ''' Training '''
@@ -251,7 +252,7 @@ with tf.Graph().as_default():
 
 
             time_str = datetime.datetime.now().isoformat()
-            print("{}: step {}, loss {:g}, acc {:g}".format(time_str, step, loss, accuracy))
+            print(("{}: step {}, loss {:g}, acc {:g}".format(time_str, step, loss, accuracy)))
 
         def test_step(s1_all, s2_all, y_all):
             """
@@ -311,8 +312,8 @@ with tf.Graph().as_default():
             for i in range(num_classes):
                 alphabet.add(str(i))
             confusionMatrix = ConfusionMatrix(alphabet)
-            predictions = map(str, predictions)
-            golds = map(str, golds)
+            predictions = list(map(str, predictions))
+            golds = list(map(str, golds))
             confusionMatrix.add_list(predictions, golds)
 
             return confusionMatrix
@@ -379,8 +380,8 @@ with tf.Graph().as_default():
             for i in range(num_classes):
                 alphabet.add(str(i))
             confusionMatrix = ConfusionMatrix(alphabet)
-            predictions = map(str, preds)
-            golds = map(str, golds)
+            predictions = list(map(str, preds))
+            golds = list(map(str, golds))
             confusionMatrix.add_list(predictions, golds)
 
 
@@ -402,7 +403,7 @@ with tf.Graph().as_default():
                 for i, s in enumerate(softmax_scores):
                     fw.write("%d\t%.4f\n" % (preds[i], s[num_classes - 1]))
 
-            print pred_file, id_file, tag, subtask
+            print(pred_file, id_file, tag, subtask)
             map_score, mrr_score = get_rank_score_by_file(pred_file, id_file, tag, subtask)
 
             return map_score, mrr_score, confusionMatrix.get_accuracy()
@@ -443,12 +444,12 @@ with tf.Graph().as_default():
 
             print("")
             print("\nEvaluation on Test:")
-            print "Current Performance:"
-            print curr_output_string
+            print("Current Performance:")
+            print(curr_output_string)
             if flag == 1:
-                print "  " * 40 + '❤️'
-            print (color + 'Best Performance' + reset)
-            print (color + best_output_string + reset)
+                print("  " * 40 + '❤️')
+            print((color + 'Best Performance' + reset))
+            print((color + best_output_string + reset))
             print("")
 
             return best_score, best_output_string
@@ -491,12 +492,12 @@ with tf.Graph().as_default():
 
             print("")
             print("\nEvaluation on Test:")
-            print "Current Performance:"
-            print curr_output_string
+            print("Current Performance:")
+            print(curr_output_string)
             if flag == 1:
-                print "  " * 40 + '❤️'
-            print (color + 'Best Performance' + reset)
-            print (color + best_output_string + reset)
+                print("  " * 40 + '❤️')
+            print((color + 'Best Performance' + reset))
+            print((color + best_output_string + reset))
             print("")
 
             return best_score, best_output_string
@@ -539,12 +540,12 @@ with tf.Graph().as_default():
 
             print("")
             print("\nEvaluation on Test:")
-            print "Current Performance:"
-            print curr_output_string
+            print("Current Performance:")
+            print(curr_output_string)
             if flag == 1:
-                print "  " * 40 + '❤️'
-            print (color + 'Best Performance' + reset)
-            print (color + best_output_string + reset)
+                print("  " * 40 + '❤️')
+            print((color + 'Best Performance' + reset))
+            print((color + best_output_string + reset))
             print("")
 
             return best_score, best_output_string
@@ -578,12 +579,12 @@ with tf.Graph().as_default():
 
             print("")
             print("\nEvaluation on Test:")
-            print "Current Performance:"
-            print curr_output_string
+            print("Current Performance:")
+            print(curr_output_string)
             if flag == 1:
-                print "  " * 40 + '❤️'
-            print (color + 'Best Performance' + reset)
-            print (color + best_output_string + reset)
+                print("  " * 40 + '❤️')
+            print((color + 'Best Performance' + reset))
+            print((color + best_output_string + reset))
             print("")
 
             return best_score, best_output_string
@@ -597,7 +598,7 @@ with tf.Graph().as_default():
         best_output_string = ""
         # Training loop. For each batch...
         for batch in batches:
-            s1_batch, s2_batch, y_batch = zip(*batch)
+            s1_batch, s2_batch, y_batch = list(zip(*batch))
             train_step(s1_batch, s2_batch, y_batch)
             current_step = tf.train.global_step(sess, global_step)
             if current_step % FLAGS.evaluate_every == 0:

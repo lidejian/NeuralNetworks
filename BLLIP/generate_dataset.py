@@ -3,12 +3,13 @@
 import sys
 from collections import Counter
 from heapq import heappush, heapreplace
+import imp
 
 sys.path.append("../")
 import json, ujson
 import random
 import config
-reload(sys)
+imp.reload(sys)
 sys.setdefaultencoding('utf-8')
 from tqdm import tqdm
 
@@ -36,7 +37,7 @@ def generate_train_data(relations, level1_type, train_dir):
         neg_examples = random.sample(neg_examples, size)
 
     # to file
-    print "%s: pos: %d vs neg: %s" % (level1_type, len(pos_examples), len(neg_examples))
+    print("%s: pos: %d vs neg: %s" % (level1_type, len(pos_examples), len(neg_examples)))
 
     with \
             open("%s/arg1.tok" % (train_dir), "a") as fout_arg1, \
@@ -55,7 +56,7 @@ def main(implicit_relation_file, dataset_dir):
 
     relations = [ujson.loads(x) for x in open(implicit_relation_file)]
 
-    print "relations are loaded..."
+    print("relations are loaded...")
 
     level1_list = ["Comparison", "Contingency", "Expansion", "Temporal"]
     for level1 in level1_list:
@@ -66,7 +67,7 @@ def main(implicit_relation_file, dataset_dir):
 def generate_for_conll(implicit_relation_file, to_dir):
 
     relations = [ujson.loads(x) for x in open(implicit_relation_file)]
-    print "relations are loaded..."
+    print("relations are loaded...")
 
     k = 100000
     H = []
@@ -75,7 +76,7 @@ def generate_for_conll(implicit_relation_file, to_dir):
         arg1_words = " ".join(relation["Arg1"]["WordList"])
         arg2_words = " ".join(relation["Arg2"]["WordList"])
         # 去掉6种关系
-        Sense = [sense for sense in relation["Sense"] if sense in config.dict_conll_sense_to_label.keys()]
+        Sense = [sense for sense in relation["Sense"] if sense in list(config.dict_conll_sense_to_label.keys())]
         if Sense == []:
             continue
         sense = Sense[0]
@@ -211,22 +212,22 @@ def get_all_connectives(relation_file):
         counter[connective] += 1
 
     #
-    print "##" * 45
+    print("##" * 45)
     connectives = []
     for connective, freq in counter.most_common():
         connectives.append(connective)
-        print "%s: %d" % (connective, freq)
+        print("%s: %d" % (connective, freq))
 
     connectives = sorted(connectives)
     # connective --> idx
-    print "##" * 45
+    print("##" * 45)
     for idx, connective in enumerate(connectives):
-        print "'%s': %d," % (connective, idx)
+        print("'%s': %d," % (connective, idx))
 
     # idx --> connective
-    print "##" * 45
+    print("##" * 45)
     for idx, connective in enumerate(connectives):
-        print "%d: '%s'," % (idx, connective)
+        print("%d: '%s'," % (idx, connective))
 
 
 

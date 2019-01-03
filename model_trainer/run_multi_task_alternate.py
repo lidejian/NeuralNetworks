@@ -2,7 +2,8 @@
 #encoding: utf-8
 import os
 import sys
-reload(sys)
+import imp
+imp.reload(sys)
 sys.setdefaultencoding('utf-8')
 sys.path.append("../")
 import config
@@ -71,7 +72,7 @@ cmd = "python train_multi_task_alternate.py" \
       + " --num_epochs %s" % num_epochs \
       + " --evaluate_every %s" % evaluate_every \
 
-print cmd
+print(cmd)
 os.system(cmd)
 
 

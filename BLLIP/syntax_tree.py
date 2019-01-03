@@ -15,7 +15,7 @@ class Syntax_tree:
         pass
 
     def print_tree(self):
-        print(self.tree.get_ascii(show_internal=True))
+        print((self.tree.get_ascii(show_internal=True)))
 
     def get_node_to_root_path(self, node):
         if node == None: return ""
@@ -342,15 +342,15 @@ if __name__ == "__main__":
     #
     parse_tree = "(S1 (S (NP (NP (DT A) (JJ prep) (NN course)) (PP (IN for) (NP (NP (DT the) (JJ month-long) (NNP World) (NNP Cup) (NN soccer) (NN tournament)) (, ,) (NP (NP (DT a) (NNP worldwide) (NN phenomenon)) (SBAR (S (VP (TO to) (VP (AUX be) (VP (VBN played) (PP (IN in) (NP (DT the) (NNP United) (NNPS States))) (PP (IN for) (NP (NP (DT the) (JJ first) (NN time)) (VP (VBG beginning) (NP (NNP June) (CD 17))))))))))) (, ,)))) (VP (AUX is) (ADJP (JJ available)) (PP (IN in) (NP (NP (DT a) (NN set)) (PP (IN of) (NP (CD three) (NN home) (NNS videos)))))) (. .)))"
 
-    print("--" * 40)
+    print(("--" * 40))
 
 
 
 
     syntax_tree = Syntax_tree(parse_tree)
 
-    print(syntax_tree.get_words())
-    print(syntax_tree.get_pos())
+    print((syntax_tree.get_words()))
+    print((syntax_tree.get_pos()))
 
     # if syntax_tree.tree != None:
     #     syntax_tree.print_tree()

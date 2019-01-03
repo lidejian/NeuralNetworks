@@ -2,7 +2,8 @@
 #encoding: utf-8
 import sys
 import colored
-reload(sys)
+import imp
+imp.reload(sys)
 sys.setdefaultencoding('utf-8')
 sys.path.append("../")
 from model_trainer.single_task import RNN, Attention_RNN1, Attention_RNN2, Attention_RNN3, Attention_RNN4, \
@@ -13,12 +14,12 @@ from confusion_matrix import ConfusionMatrix
 import datetime
 from tensorflow.contrib import learn
 import config
-import data_helpers
-import util
+from . import data_helpers
+from . import util
 import tensorflow as tf
 import numpy as np
-import data_utils
-import scorer as sc
+from . import data_utils
+from . import scorer as sc
 
 
 
@@ -62,7 +63,7 @@ FLAGS = tf.flags.FLAGS
 FLAGS._parse_flags()
 print("\nParameters:")
 for attr, value in sorted(FLAGS.__flags.items()):
-    print("{}={}".format(attr.upper(), value))
+    print(("{}={}".format(attr.upper(), value)))
 print("")
 
 
@@ -80,8 +81,8 @@ model_mapping = {
 # for recording
 
 record_file = config.RECORD_PATH + "/single_task_cqa.csv"
-print "==> record path: %s" % record_file
-print
+print("==> record path: %s" % record_file)
+print()
 
 evaluation_result = {
     "f1": 0.0,
@@ -162,8 +163,8 @@ vocab_embeddings = \
     util.load_google_word2vec_for_vocab(data_path+"cqa_train", vocab_processor.vocabulary_._mapping, from_origin=True)
 
 
-print("Vocabulary Size: {:d}".format(len(vocab_processor.vocabulary_)))
-print("Main Task Train/Dev/Test split: {:d}/{:d}/{:d}".format(len(main_train_y), len(main_dev_y), len(main_test_y)))
+print(("Vocabulary Size: {:d}".format(len(vocab_processor.vocabulary_))))
+print(("Main Task Train/Dev/Test split: {:d}/{:d}/{:d}".format(len(main_train_y), len(main_dev_y), len(main_test_y))))
 
 
 
@@ -231,7 +232,7 @@ with tf.Graph().as_default():
 
 
             time_str = datetime.datetime.now().isoformat()
-            print("{}: step {}, loss {:g}, acc {:g}".format(time_str, step, loss, accuracy))
+            print(("{}: step {}, loss {:g}, acc {:g}".format(time_str, step, loss, accuracy)))
 
         def test_step(s1_all, s2_all, y_all, tag="dev"):
             """
@@ -307,7 +308,7 @@ with tf.Graph().as_default():
         test_map_score, test_mrr_score = 0, 0
         # Training loop. For each batch...
         for batch in batches:
-            s1_batch, s2_batch, y_batch = zip(*batch)
+            s1_batch, s2_batch, y_batch = list(zip(*batch))
             train_step(s1_batch, s2_batch, y_batch)
             current_step = tf.train.global_step(sess, global_step)
             if current_step % FLAGS.evaluate_every == 0:
@@ -316,8 +317,8 @@ with tf.Graph().as_default():
                     best_test_map = test_map_score
 
                 print("")
-                print("===>Test Cur Map Score:{:.4f}".format(test_map_score))
-                print("===>Best Test Map Score:{:.4f}".format(best_test_map))
+                print(("===>Test Cur Map Score:{:.4f}".format(test_map_score)))
+                print(("===>Best Test Map Score:{:.4f}".format(best_test_map)))
                 print("")
 
 

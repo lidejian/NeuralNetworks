@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 #encoding: utf-8
 import sys
-reload(sys)
+import imp
+imp.reload(sys)
 sys.setdefaultencoding('utf-8')
 sys.path.append("../")
 import config
@@ -184,7 +185,7 @@ for model in models_list:
                               + " --num_epochs %s" % num_epochs \
                               + " --evaluate_every %s" % evaluate_every \
 
-                        print cmd
+                        print(cmd)
                         os.system(cmd)
 
 

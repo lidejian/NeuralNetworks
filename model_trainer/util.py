@@ -2,8 +2,9 @@
 #encoding: utf-8
 import codecs
 import sys
-reload(sys)
-sys.setdefaultencoding('utf-8')
+import imp
+imp.reload(sys)
+# sys.setdefaultencoding('utf-8')
 import config
 import tensorflow as tf
 import numpy as np
@@ -43,8 +44,8 @@ def _load_vocab_vec(fname, dict_word_to_index, to_file):
     dict_word_to_vector = {}
     with open(fname, "rb") as f:
         header = f.readline()
-        vocab_size, layer1_size = map(int, header.split())
-        print "==> word embedding size", layer1_size
+        vocab_size, layer1_size = list(map(int, header.split()))
+        print("==> word embedding size", layer1_size)
         binary_len = np.dtype('float32').itemsize * layer1_size
         for line in range(vocab_size):
             word = []
@@ -63,7 +64,7 @@ def _load_vocab_vec(fname, dict_word_to_index, to_file):
 
     vocab_words = []
     vocab_embeddings = [np.array([0] * layer1_size)] * len(dict_word_to_index)
-    print("The number of word in vec: %d" % len(dict_word_to_vector))
+    print(("The number of word in vec: %d" % len(dict_word_to_vector)))
     for word in dict_word_to_index:
         vocab_words.append(word)
         index = dict_word_to_index[word]
@@ -83,7 +84,7 @@ def _load_wordvec(filename):
     vocab_embeddings = []
     with open(filename) as fr:
         for line in fr:
-            vocab_embeddings.append(map(float, line.strip().split(" ")[1:]))
+            vocab_embeddings.append(list(map(float, line.strip().split(" ")[1:])))
     return np.array(vocab_embeddings)
 
 
@@ -127,7 +128,7 @@ def _load_vec_from_corpus(fname, vocab, to_file, embedding_size=300):
     fr = codecs.open(fname, encoding="utf-8")
     word_vecs = {}  # skip information on first line
     vocab_size = len(vocab)
-    print "vocab_size", vocab_size
+    print("vocab_size", vocab_size)
     for i, line in enumerate(fr):
         if i == 0:
             if len(line.split()) > 2:
@@ -145,7 +146,7 @@ def _load_vec_from_corpus(fname, vocab, to_file, embedding_size=300):
             word_vecs[word] = vect
 
     vocab_embeddings = [np.array([0] * embedding_size)] * len(vocab)
-    print("The number of word in vec:%d" % len(word_vecs))
+    print(("The number of word in vec:%d" % len(word_vecs)))
     for word in vocab:
         index = vocab[word]
         if index == 0:

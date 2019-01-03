@@ -4,7 +4,8 @@ import glob
 import json
 import os
 import sys
-reload(sys)
+import imp
+imp.reload(sys)
 sys.setdefaultencoding('utf-8')
 
 
@@ -77,7 +78,7 @@ def main(BLLIP_dir, to_file):
 
     fout = open(to_file, "w")
     for disk in disks:
-        print "==> %s" % disk
+        print("==> %s" % disk)
         for file_name in glob.glob(os.path.join("%s/%s/explicitDiscourse" % (BLLIP_dir, disk), '*.json')):
             explicit_relations = [json.loads(x) for x in open(file_name)]
             for explicit_relation in explicit_relations:
@@ -98,7 +99,7 @@ def get_all_relations(BLLIP_dir, to_file):
 
     fout = open(to_file, "w")
     for disk in disks:
-        print "==> %s" % disk
+        print("==> %s" % disk)
         for file_name in glob.glob(os.path.join("%s/%s/explicitDiscourse" % (BLLIP_dir, disk), '*.json')):
             explicit_relations = [json.loads(x) for x in open(file_name)]
             for explicit_relation in explicit_relations:

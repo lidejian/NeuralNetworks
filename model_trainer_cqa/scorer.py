@@ -16,7 +16,7 @@ def cal_mrr(out, th):
   MRR = 0.0
   for qid in out:
     candidates = out[qid]
-    for i in xrange(min(th, len(candidates))):
+    for i in range(min(th, len(candidates))):
       if candidates[i] == "true":
         MRR += 1.0 / (i + 1)
         break
@@ -32,7 +32,7 @@ def cal_map(out, th):
     avg_prec = 0
     precisions = []
     num_correct = 0
-    for i in xrange(min(th, len(candidates))):
+    for i in range(min(th, len(candidates))):
       if candidates[i] == "true":
         num_correct += 1
         precisions.append(1.0 * num_correct/(i+1))

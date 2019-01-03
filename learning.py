@@ -3,7 +3,8 @@
 import sys
 import tensorflow as tf
 import numpy as np
-reload(sys)
+import imp
+imp.reload(sys)
 sys.setdefaultencoding('utf-8')
 
 
@@ -100,15 +101,15 @@ with tf.Session() as sess:
 
     # input_tensor = np.array([[[1, 2, 3], [1, 2, 3], [2, 3, 4]], [[0, 1, 3], [1, 2, 3], [0, 3, 4]]])
 
-    print input_a
-    print "==" * 45
-    print input_b
-    print "==" * 45
-    print input_tensor
-    print "==" * 45
+    print(input_a)
+    print("==" * 45)
+    print(input_b)
+    print("==" * 45)
+    print(input_tensor)
+    print("==" * 45)
 
     r2, b1 = sess.run([result, b1], feed_dict={a: input_a, b: input_b, Wddk: input_tensor})
 
-    print r2, r2.shape
-    print b1, b1.shape
+    print(r2, r2.shape)
+    print(b1, b1.shape)
 

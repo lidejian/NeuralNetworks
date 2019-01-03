@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 #encoding: utf-8
 import sys
-reload(sys)
-sys.setdefaultencoding('utf-8')
+import imp
+imp.reload(sys)
+# sys.setdefaultencoding('utf-8')
 sys.path.append("../")
 import config
 import os
@@ -27,7 +28,7 @@ import os
 # train_data_dir = config.DATA_PATH + "/binary/%s/%s" % (dataset_type, level1_type)
 
 # ''' four way'''
-# train_data_dir = config.DATA_PATH + "/four_way/PDTB_imp"
+train_data_dir = config.DATA_PATH + "/four_way/PDTB_imp"
 
 #
 # train_data_dir = config.DATA_PATH + "/cqa/QA"
@@ -37,7 +38,7 @@ import os
 # blind = False
 
 
-train_data_dir = config.DATA_PATH + "/ZH"
+# train_data_dir = config.DATA_PATH + "/ZH"
 # blind = True
 
 
@@ -80,7 +81,11 @@ cmd = "python train_single_task.py" \
 # + " --dataset_type %s" % dataset_type \
 # + " --level1_sense %s" % level1_type \
 
-print cmd
+cmd_tensor="activate tensorflow"
+print(cmd_tensor)
+os.system((cmd_tensor))
+
+print(cmd)
 os.system(cmd)
 
 

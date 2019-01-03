@@ -1,9 +1,10 @@
 #!/usr/bin/env python
 #encoding: utf-8
 import sys
-reload(sys)
+import imp
+imp.reload(sys)
 sys.setdefaultencoding('utf-8')
-import util
+from . import util
 import tensorflow as tf
 import numpy as np
 
@@ -476,7 +477,7 @@ class share_1(object):
                  additional_conf={},
                  ):
 
-        additional_conf["inputs_to_discourse_representation"] = inputs_to_discourse_representation.func_name.split("_")[-1]
+        additional_conf["inputs_to_discourse_representation"] = inputs_to_discourse_representation.__name__.split("_")[-1]
 
         self.main_input_s1 = tf.placeholder(tf.int32, [None, sent_length], name="main_input_s1")
         self.main_input_s2 = tf.placeholder(tf.int32, [None, sent_length], name="main_input_s2")
@@ -681,7 +682,7 @@ class share_2(object):
                  additional_conf={},
                  ):
 
-        additional_conf["inputs_to_discourse_representation"] = inputs_to_discourse_representation.func_name.split("_")[-1]
+        additional_conf["inputs_to_discourse_representation"] = inputs_to_discourse_representation.__name__.split("_")[-1]
 
         self.main_input_s1 = tf.placeholder(tf.int32, [None, sent_length], name="main_input_s1")
         self.main_input_s2 = tf.placeholder(tf.int32, [None, sent_length], name="main_input_s2")
@@ -855,7 +856,7 @@ class share_3(object):
                  additional_conf={},
                  ):
 
-        additional_conf["inputs_to_discourse_representation"] = inputs_to_discourse_representation.func_name.split("_")[-1]
+        additional_conf["inputs_to_discourse_representation"] = inputs_to_discourse_representation.__name__.split("_")[-1]
 
         self.main_input_s1 = tf.placeholder(tf.int32, [None, sent_length], name="main_input_s1")
         self.main_input_s2 = tf.placeholder(tf.int32, [None, sent_length], name="main_input_s2")

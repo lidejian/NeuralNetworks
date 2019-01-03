@@ -4,8 +4,9 @@ import os
 import random
 import sys
 from _heapq import heappush, heapreplace
+import imp
 
-reload(sys)
+imp.reload(sys)
 sys.setdefaultencoding('utf-8')
 
 random.seed(1)
@@ -22,7 +23,7 @@ def sample(data_path, k=10000):
 
     for level1_sense in level1_senses:
 
-        print "for %s ..." % level1_sense
+        print("for %s ..." % level1_sense)
 
         with open("%s/%s/train/arg1.tok.full" % (data_path, level1_sense)) as fin_arg1, \
              open("%s/%s/train/arg2.tok.full" % (data_path, level1_sense)) as fin_arg2, \

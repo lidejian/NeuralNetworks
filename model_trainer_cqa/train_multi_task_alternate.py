@@ -8,8 +8,8 @@ from confusion_matrix import ConfusionMatrix
 import datetime
 from tensorflow.contrib import learn
 import config
-import data_helpers
-from multi_task import *
+from . import data_helpers
+from .multi_task import *
 import colored
 
 
@@ -57,7 +57,7 @@ FLAGS = tf.flags.FLAGS
 FLAGS._parse_flags()
 print("\nParameters:")
 for attr, value in sorted(FLAGS.__flags.items()):
-    print("{}={}".format(attr.upper(), value))
+    print(("{}={}".format(attr.upper(), value)))
 print("")
 
 model_mapping = {
@@ -79,8 +79,8 @@ elif "conll" in main_train_data_dir:
 else:
     record_file = config.RECORD_PATH + "/multi_task_alternate/four_way.csv"
 
-print "==> record path: %s" % record_file
-print
+print("==> record path: %s" % record_file)
+print()
 
 
 
@@ -168,8 +168,8 @@ aux_train_arg2s = np.array(list(vocab_processor.transform(aux_train_arg2s)))
 vocab_embeddings = \
     util.load_google_word2vec_for_vocab(main_train_data_dir, vocab_processor.vocabulary_._mapping, from_origin=True)
 
-print("Vocabulary Size: {:d}".format(len(vocab_processor.vocabulary_)))
-print("Train/Dev/Test split: {:d}/{:d}/{:d}".format(len(main_train_labels), len(main_dev_labels), len(main_test_labels)))
+print(("Vocabulary Size: {:d}".format(len(vocab_processor.vocabulary_))))
+print(("Train/Dev/Test split: {:d}/{:d}/{:d}".format(len(main_train_labels), len(main_dev_labels), len(main_test_labels))))
 
 
 # Training
@@ -249,7 +249,7 @@ with tf.Graph().as_default():
                 aux_feed_dict)
 
             time_str = datetime.datetime.now().isoformat()
-            print("{}: step {}, main loss {:g}, aux loss {:g}, main acc {:g}, aux acc {:g}".format(time_str, step, main_loss, aux_loss, main_accuracy, aux_accuracy))
+            print(("{}: step {}, main loss {:g}, aux loss {:g}, main acc {:g}, aux acc {:g}".format(time_str, step, main_loss, aux_loss, main_accuracy, aux_accuracy)))
 
 
         def test_step(s1_all, s2_all, y_all):
@@ -315,8 +315,8 @@ with tf.Graph().as_default():
             for i in range(main_num_classes):
                 alphabet.add(str(i))
             confusionMatrix = ConfusionMatrix(alphabet)
-            preds = map(str, preds)
-            golds = map(str, golds)
+            preds = list(map(str, preds))
+            golds = list(map(str, golds))
             confusionMatrix.add_list(preds, golds)
 
             return confusionMatrix
@@ -356,12 +356,12 @@ with tf.Graph().as_default():
 
             print("")
             print("\nEvaluation on Test:")
-            print "Current Performance:"
-            print curr_output_string
+            print("Current Performance:")
+            print(curr_output_string)
             if flag == 1:
-                print "  " * 40 + '❤️'
-            print (color + 'Best Performance' + reset)
-            print (color + best_output_string + reset)
+                print("  " * 40 + '❤️')
+            print((color + 'Best Performance' + reset))
+            print((color + best_output_string + reset))
             print("")
 
             return best_score, best_output_string
@@ -401,12 +401,12 @@ with tf.Graph().as_default():
 
             print("")
             print("\nEvaluation on Test:")
-            print "Current Performance:"
-            print curr_output_string
+            print("Current Performance:")
+            print(curr_output_string)
             if flag == 1:
-                print "  " * 40 + '❤️'
-            print (color + 'Best Performance' + reset)
-            print (color + best_output_string + reset)
+                print("  " * 40 + '❤️')
+            print((color + 'Best Performance' + reset))
+            print((color + best_output_string + reset))
             print("")
 
             return best_score, best_output_string
@@ -448,12 +448,12 @@ with tf.Graph().as_default():
 
             print("")
             print("\nEvaluation on Test:")
-            print "Current Performance:"
-            print curr_output_string
+            print("Current Performance:")
+            print(curr_output_string)
             if flag == 1:
-                print "  " * 40 + '❤️'
-            print (color + 'Best Performance' + reset)
-            print (color + best_output_string + reset)
+                print("  " * 40 + '❤️')
+            print((color + 'Best Performance' + reset))
+            print((color + best_output_string + reset))
             print("")
 
             return best_score, best_output_string
@@ -469,8 +469,8 @@ with tf.Graph().as_default():
         best_output_string = ""
         # Training loop. For each batch...
         for main_batch, aux_batch in zip(main_batches, aux_batches):
-            main_s1_batch, main_s2_batch, main_y_batch = zip(*main_batch)
-            aux_s1_batch, aux_s2_batch, aux_y_batch = zip(*aux_batch)
+            main_s1_batch, main_s2_batch, main_y_batch = list(zip(*main_batch))
+            aux_s1_batch, aux_s2_batch, aux_y_batch = list(zip(*aux_batch))
 
             # train ...
             train_step(main_s1_batch, main_s2_batch, main_y_batch, aux_s1_batch, aux_s2_batch, aux_y_batch)

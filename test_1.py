@@ -3,8 +3,9 @@
 import json
 import sys
 from collections import Counter
+import imp
 
-reload(sys)
+imp.reload(sys)
 sys.setdefaultencoding('utf-8')
 
 
@@ -21,7 +22,7 @@ def do_statistics(relation_path):
             counter[sense] += 1
 
     for sense in sorted(counter.keys()):
-        print sense, counter[sense]
+        print(sense, counter[sense])
 
     return counter
 
@@ -44,13 +45,13 @@ if __name__ == '__main__':
     dev_counter = do_statistics("data/CoNLL_Corpus/zh/conll16st-zh-01-08-2016-dev/relations.json")
     test_counter = do_statistics("data/CoNLL_Corpus/zh/conll16st-zh-01-08-2016-test/relations.json")
 
-    print
-    print
+    print()
+    print()
 
     keys = sorted(train_counter.keys())
     for key in keys:
-        print "%s & %d & %d & %d\\\\" % (
-        key, train_counter[key], dev_counter[key], test_counter[key])
+        print("%s & %d & %d & %d\\\\" % (
+        key, train_counter[key], dev_counter[key], test_counter[key]))
 
 
 

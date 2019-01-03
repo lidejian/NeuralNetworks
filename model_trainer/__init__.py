@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 #encoding: utf-8
 import sys
-reload(sys)
-sys.setdefaultencoding('utf-8')
+import imp
+imp.reload(sys)
+# sys.setdefaultencoding('utf-8')

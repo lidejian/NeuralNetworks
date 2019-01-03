@@ -4,16 +4,16 @@ import socket
 
 hostname = socket.gethostname()
 if hostname == "precision":
-    CWD = "/home/jianxiang/pycharmSpace/NeuralNetworks"
+    CWD = "/home/dejian/NeuralNetworks"
 else:
-    CWD = "/Users/Hunter/Documents/pycharmSpace/NeuralNetworks"
+    CWD = "D:/PY/Pycode/project/NeuralNetworks_code"
 
 DATA_PATH = CWD + "/data"
 RECORD_PATH = CWD + "/record"
 
 GOOGLE_WORD2VEC_PATH = "/home/jianxiang/data/word2vec/GoogleNews/GoogleNews-vectors-negative300.bin"
 BLLIP_WORD2VEC_PATH = "/home/jianxiang/data/BLLIP_parsed/bllip.vectors.bin"
-ZH_WORD2VEC_PATH = "/home/jianxiang/data/word2vec/zh-Gigaword-300.txt"
+ZH_WORD2VEC_PATH = "/home/dejian/data/word2vec/zh-Gigaword-300.txt"
 
 
 

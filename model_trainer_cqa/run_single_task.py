@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 #encoding: utf-8
 import sys
-reload(sys)
+import imp
+imp.reload(sys)
 sys.setdefaultencoding('utf-8')
 sys.path.append("../")
 import config
@@ -54,7 +55,7 @@ cmd = "python train_single_task.py" \
 # + " --dataset_type %s" % dataset_type \
 # + " --level1_sense %s" % level1_type \
 
-print cmd
+print(cmd)
 os.system(cmd)
 
 

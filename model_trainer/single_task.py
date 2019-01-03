@@ -1,9 +1,10 @@
 #!/usr/bin/env python
 #encoding: utf-8
 import sys
-reload(sys)
-sys.setdefaultencoding('utf-8')
-import util
+import imp
+imp.reload(sys)
+# sys.setdefaultencoding('utf-8')
+from . import util
 import tensorflow as tf
 import numpy as np
 

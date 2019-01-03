@@ -8,12 +8,12 @@ from confusion_matrix import ConfusionMatrix
 import datetime
 from tensorflow.contrib import learn
 import config
-import data_helpers
-from multi_task import *
+from . import data_helpers
+from .multi_task import *
 import colored
-import util
-import data_utils
-import scorer as sc
+from . import util
+from . import data_utils
+from . import scorer as sc
 
 
 
@@ -61,7 +61,7 @@ FLAGS = tf.flags.FLAGS
 FLAGS._parse_flags()
 print("\nParameters:")
 for attr, value in sorted(FLAGS.__flags.items()):
-    print("{}={}".format(attr.upper(), value))
+    print(("{}={}".format(attr.upper(), value)))
 print("")
 
 model_mapping = {
@@ -73,8 +73,8 @@ model_mapping = {
 
 # for recording
 record_file = config.RECORD_PATH + "/cqa.csv"
-print "==> record path: %s" % record_file
-print
+print("==> record path: %s" % record_file)
+print()
 
 
 
@@ -184,9 +184,9 @@ vocab_embeddings = \
     util.load_google_word2vec_for_vocab(data_path+"cqa_train", vocab_processor.vocabulary_._mapping, from_origin=True)
 
 
-print("Vocabulary Size: {:d}".format(len(vocab_processor.vocabulary_)))
-print("Main Task Train/Dev/Test split: {:d}/{:d}/{:d}".format(len(main_train_y), len(main_dev_y), len(main_test_y)))
-print("Aux Task Train/Dev/Test split: {:d}/{:d}/{:d}".format(len(aux_train_y), len(aux_dev_y), len(aux_test_y)))
+print(("Vocabulary Size: {:d}".format(len(vocab_processor.vocabulary_))))
+print(("Main Task Train/Dev/Test split: {:d}/{:d}/{:d}".format(len(main_train_y), len(main_dev_y), len(main_test_y))))
+print(("Aux Task Train/Dev/Test split: {:d}/{:d}/{:d}".format(len(aux_train_y), len(aux_dev_y), len(aux_test_y))))
 
 
 
@@ -253,7 +253,7 @@ with tf.Graph().as_default():
                 feed_dict)
 
             time_str = datetime.datetime.now().isoformat()
-            print("{}: step {}, loss {:g}, main acc {:g}, aux acc {:g}".format(time_str, step, loss, main_accuracy, aux_accuracy))
+            print(("{}: step {}, loss {:g}, main acc {:g}, aux acc {:g}".format(time_str, step, loss, main_accuracy, aux_accuracy)))
 
 
         def test_step(s1_all, s2_all, y_all, tag="dev"):
@@ -348,8 +348,8 @@ with tf.Graph().as_default():
         test_map_score, test_mrr_score = 0, 0
         # Training loop. For each batch...
         for main_batch, aux_batch in zip(main_batches, aux_batches):
-            main_s1_batch, main_s2_batch, main_y_batch = zip(*main_batch)
-            aux_s1_batch, aux_s2_batch, aux_y_batch = zip(*aux_batch)
+            main_s1_batch, main_s2_batch, main_y_batch = list(zip(*main_batch))
+            aux_s1_batch, aux_s2_batch, aux_y_batch = list(zip(*aux_batch))
 
             # train ...
             train_step(main_s1_batch, main_s2_batch, main_y_batch, aux_s1_batch, aux_s2_batch, aux_y_batch)
@@ -361,8 +361,8 @@ with tf.Graph().as_default():
                     best_test_map = test_map_score
 
                 print("")
-                print("===>Test Cur Map Score:{:.4f}".format(test_map_score))
-                print("===>Best Test Map Score:{:.4f}".format(best_test_map))
+                print(("===>Test Cur Map Score:{:.4f}".format(test_map_score)))
+                print(("===>Best Test Map Score:{:.4f}".format(best_test_map)))
                 print("")
 
 

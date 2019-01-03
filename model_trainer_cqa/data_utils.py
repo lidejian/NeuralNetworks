@@ -254,8 +254,8 @@ def batch_iter2(data, batch_size, max_document_length, shuffle=False):
     data_size = len(data)
     if data_size % batch_size != 0:
         remainder_size = batch_size - data_size % batch_size
-        data += zip(np.array([[0]*max_document_length] * remainder_size), np.array([[0]*max_document_length] * remainder_size), \
-                    np.array([[0,1]] * remainder_size))
+        data += list(zip(np.array([[0]*max_document_length] * remainder_size), np.array([[0]*max_document_length] * remainder_size), \
+                    np.array([[0,1]] * remainder_size)))
 
     data = np.array(data)
     data_size = len(data)
@@ -272,8 +272,8 @@ def batch_iter3(data, batch_size, max_document_length, max_sents_num):
     if data_size % batch_size != 0:
         remainder_size = batch_size - data_size % batch_size
         s1= np.array([])
-        data += zip(np.array([[0]*max_document_length] * remainder_size), np.array([[[0]*max_document_length]*max_sents_num]* remainder_size), \
-                    np.array([[0, 1]] * remainder_size))
+        data += list(zip(np.array([[0]*max_document_length] * remainder_size), np.array([[[0]*max_document_length]*max_sents_num]* remainder_size), \
+                    np.array([[0, 1]] * remainder_size)))
     data = np.array(data)
     data_size = len(data)
     num_batches_per_epoch = int(data_size / batch_size)
@@ -291,8 +291,8 @@ def batch_iter4(data, batch_size, max_document_length, shuffle=False):
     data_size = len(data)
     if data_size % batch_size != 0:
         remainder_size = batch_size - data_size % batch_size
-        data += zip(np.array([[0]*max_document_length] * remainder_size), np.array([[0]*max_document_length] * remainder_size), \
-                    np.array([[0] * max_document_length] * remainder_size))
+        data += list(zip(np.array([[0]*max_document_length] * remainder_size), np.array([[0]*max_document_length] * remainder_size), \
+                    np.array([[0] * max_document_length] * remainder_size)))
 
     data = np.array(data)
     data_size = len(data)
