@@ -1,2 +1,60 @@
-ç¥ç»ç½‘ç»œä»£ç baseline
-æµ‹è¯•ç¬¬äºŒæ¬¡æäº¤
+1. ĞèÒª°²×°µÄÈí¼ş
+	Python 2.7
+	tensorflow
+
+2. Ä¿Â¼½éÉÜ
+	2.1 BLLIP£º´¦ÀíBLLIPÊı¾İÏà¹Ø´úÂë
+	2.3 data£º Êı¾İ¼¯´æ·ÅÄ¿Â¼
+	2.5 model_trainer£ºÑµÁ·Ä£ĞÍ´úÂë £¨Õâ²¿·Ö´úÂëÕë¶Ô implicit discourse recognition£©
+		2.5.1 single_task.py: µ¥ÈÎÎñÉñ¾­ÍøÂçÄ£ĞÍ¶¨Òå
+		2.5.2 train_single_task.py£ºÑµÁ·µ¥ÈÎÎñÉñ¾­ÍøÂç
+		2.5.3 run_single_task.py£º µ÷ÓÃtrain_single_task.py£¬Ê¹ÓÃÖ¸¶¨µÄ²ÎÊı£¬ÑµÁ·Ä£ĞÍ
+		2.5.4 tune_single_task.py£º ¶Ôµ¥ÈÎÎñÄ£ĞÍ½øĞĞµ÷²Î
+		2.5.5 multi_task.py: ¶àÈÎÎñÉñ¾­ÍøÂçÄ£ĞÍ¶¨Òå
+		2.5.6 train_multi_task.py£ºÑµÁ·¶àÈÎÎñÉñ¾­ÍøÂç
+		2.5.7 run_multi_task.py£º train_multi_task.py£¬Ê¹ÓÃÖ¸¶¨µÄ²ÎÊı£¬ÑµÁ·Ä£ĞÍ
+		2.5.8 tune_multi_task.py£º ¶Ô¶àÈÎÎñÄ£ĞÍ½øĞĞµ÷²Î
+	2.6 model_trainer_cqa£º ÑµÁ·Ä£ĞÍ´úÂë £¨Õâ²¿·Ö´úÂëÕë¶Ô QQ Óë QA£©, ½á¹¹Óëmodel_trainerÒ»ÖÂ
+	2.7 record£º¸÷¸öÄ£ĞÍµÄ½á¹¹¼ÇÂ¼ÎÄ¼ş¼Ğ
+	2.10 config.py£ºÏµÍ³µÄÅäÖÃÎÄ¼ş
+	2.11 dataset_processing.py£ºÊı¾İÔ¤´¦Àí´úÂë
+	2.12 record.py£º½á¹û¼ÇÂ¼´úÂë
+	2.13 sample.py£ºÊı¾İ²ÉÑù´úÂë
+
+3. ³ÌĞòÔËĞĞ·½Ê½
+
+	3.1 ÔËĞĞµ¥ÈÎÎñÄ£ĞÍ£º
+		
+		cd model_trainer && python run_single_task.py
+		
+		ÆäÖĞ,¿ÉÒÔÉèÖÃrun_single_task.pyÖĞ±äÁ¿À´ÅäÖÃµ¥ÈÎÎñµÄ²ÎÊı£º
+		a. model±äÁ¿£¬À´Ñ¡ÔñÊ¹ÓÃÄÄ¸öÄ£ĞÍ½øĞĞÑµÁ·£¬model¿ÉµÈÓÚCNN¡¢RNN¡¢Attention_RNN1µÈ¡£
+		
+		b. train_data_dir: Ê¹ÓÃÄÄ¸öÄ¿Â¼ÏÂµÄÊı¾İÀ´ÑµÁ·¡£ÀıÈç£ºtrain_data_dir = config.DATA_PATH + "/four_way/PDTB_imp"£¬±íÊ¾Ê¹ÓÃfour_way/PDTB_impÏÂµÄÊı¾İÀ´ÑµÁ·Ä£ĞÍ£¬¼´ÑµÁ·PDTBÉÏµÄËÄ·ÖÀàÄ£ĞÍ¡£
+		
+	3.2 ÔËĞĞ¶àÈÎÎñÄ£ĞÍ
+		
+		cd model_trainer && python run_multi_task.py
+		
+		
+		main_train_data_dir = config.DATA_PATH + "/four_way/PDTB_imp"
+		aux_train_data_dir = config.DATA_PATH + "/four_way/BLLIP_exp"
+		
+		ÆäÖĞ,¿ÉÒÔÉèÖÃrun_multi_task.pyÖĞ±äÁ¿À´ÅäÖÃ¶àÈÎÎñµÄ²ÎÊı£º
+		
+		a. main_train_data_dir: Ö÷ÈÎÎñµÄÑµÁ·Êı¾İ¼¯Â·¾¶
+		b. aux_train_data_dir:  ¸¨ÖúÈÎÎñµÄÑµÁ·Êı¾İ¼¯Â·¾¶
+		ÀıÈç£º
+			main_train_data_dir = config.DATA_PATH + "/four_way/PDTB_imp"
+			aux_train_data_dir = config.DATA_PATH + "/four_way/BLLIP_exp"
+			±íÊ¾Ê¹ÓÃPDTB_impµÄÊı¾İ×÷ÎªÖ÷ÈÎÎñÊı¾İ¼¯£¬Ê¹ÓÃBLLIP_exp£¨ÈË¹¤ºÏ³ÉµÄÒşĞÔÓïÆª¹ØÏµÊı¾İ¼¯£©×÷Îª¸¨ÖúÈÎÎñÊı¾İ¼¯¡£½øĞĞPDTBÉÏµÄËÄ·ÖÀàÊµÑé£¨ÔÚfour_wayÄ¿Â¼ÏÂ£¬¸ÃÄ¿Â¼ÏÂµÄÊı¾İÊÇËÄ·ÖÀàµÄÊı¾İ£©
+
+		
+		c. model±äÁ¿£ºÖ÷ÈÎÎñºÍ¸¨ÖúÈÎÎñµÄ¹²Ïí·½Ê½¡£¿ÉÒÔµÈÓÚ
+			1) share_1: µÈ¼Û¹²Ïí
+			2) share_2: ¼ÓÈ¨¹²Ïí
+			3£©share_3: ÃÅ¹²Ïí
+		
+		
+		
+	
