@@ -81,10 +81,6 @@ cmd = "python train_single_task.py" \
 # + " --dataset_type %s" % dataset_type \
 # + " --level1_sense %s" % level1_type \
 
-cmd_tensor="activate tensorflow"
-print(cmd_tensor)
-os.system((cmd_tensor))
-
 print(cmd)
 os.system(cmd)
 

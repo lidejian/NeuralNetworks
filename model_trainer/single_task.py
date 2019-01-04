@@ -46,7 +46,9 @@ def _get_rnn(inputs,
             dtype=tf.float32)
 
         hidden_size *= 2
-        outputs = tf.concat(2, outputs)
+        # outputs = tf.concat(2, outputs)     # 0.x版本：数字在前，tensors在后：tf.concat(n, tensors)
+        outputs = tf.concat(outputs, 2)     # 1.0及以后版本：tensors在前，数字在后：tf.concat(tensors, n)
+
 
     else:
         cell = _get_rnn_cell(cell_type, hidden_size, num_layers, dropout_keep_prob)
@@ -168,7 +170,8 @@ class RNN(object):
             self.output_1 = util.last_relevant(outputs1, util.length(self.embedded_s1))
             self.output_2 = util.last_relevant(outputs2, util.length(self.embedded_s2))
 
-            self.output = tf.concat(1, [self.output_1, self.output_2])
+            # self.output = tf.concat(1, [self.output_1, self.output_2])
+            self.output = tf.concat([self.output_1, self.output_2],1)   # 1.0及以后版本：tensors在前，数字在后
             self.size = hidden_size * 2
 
         # Add dropout
@@ -192,7 +195,7 @@ class RNN(object):
 
         # Calculate Mean cross-entropy loss
         with tf.name_scope("loss"):
-            losses = tf.nn.softmax_cross_entropy_with_logits(self.scores, self.input_y)
+            losses = tf.nn.softmax_cross_entropy_with_logits(labels=self.scores, logits=self.input_y)
             self.loss = tf.reduce_mean(losses) + l2_reg_lambda * l2_loss
 
         # Accuracy
@@ -295,7 +298,8 @@ class Attention_RNN1(object):
             attention_s1 = tf.batch_matmul(tf.transpose(outputs1,perm=[0,2,1]), tf.reshape(max_pooled_s1, [batch_size, sent_length, 1]))
             attention_s2 = tf.batch_matmul(tf.transpose(outputs2,perm=[0,2,1]), tf.reshape(max_pooled_s2, [batch_size, sent_length, 1]))
 
-        self.output = tf.reshape(tf.concat(1, [attention_s1, attention_s2]), [batch_size, 2 * hidden_size])
+        # self.output = tf.reshape(tf.concat(1, [attention_s1, attention_s2]), [batch_size, 2 * hidden_size])
+        self.output = tf.reshape(tf.concat([attention_s1, attention_s2],1), [batch_size, 2 * hidden_size])# 1.0及以后版本：tensors在前，数字在后
 
         # Add dropout
         with tf.name_scope("dropout"):
@@ -446,7 +450,7 @@ class Attention_RNN2(object):
             self.v2 = tf.reduce_sum(outputs2_temp * p2_temp, 2)
 
 
-            self.output = tf.concat(1, [self.v1, self.v2])
+            self.output = tf.concat([self.v1, self.v2],1)  # 1.0及以后版本：tensors在前，数字在后
             self.size = hidden_size * 2
 
         # Add dropout
@@ -613,7 +617,7 @@ class Attention_RNN3(object):
             self.v1 = tf.reduce_sum(attention_outputs1, 1)
             self.v2 = tf.reduce_sum(attention_outputs2, 1)
 
-            self.output = tf.concat(1, [self.v1, self.v2])
+            self.output = tf.concat([self.v1, self.v2],1)# 1.0及以后版本：tensors在前，数字在后
             self.size = hidden_size * 2
 
         # Add dropout
@@ -814,7 +818,7 @@ class Attention_RNN4(object):
             # (None, k)
             self.v_bi = bilinear_production(self.v1, (hidden_size, hidden_size, k), self.v2)
 
-            self.output = tf.concat(1, [self.v1, self.v2, tf.subtract(self.v1, self.v2), self.v_bi])
+            self.output = tf.concat([self.v1, self.v2, tf.subtract(self.v1, self.v2), self.v_bi],1)# 1.0及以后版本：tensors在前，数字在后
             self.size = hidden_size * 3 + k
 
         # Add dropout
@@ -977,7 +981,7 @@ class Attention_RNN5(object):
             self.v2 = tf.reduce_sum(outputs2_temp * p2_temp, 2)
 
 
-            self.output = tf.concat(1, [self.v1, self.v2])
+            self.output = tf.concat([self.v1, self.v2],1)# 1.0及以后版本：tensors在前，数字在后
             self.size = hidden_size * 2
 
         # Add dropout
@@ -1133,7 +1137,7 @@ class Attention_RNN6(object):
             self.v2 = tf.reduce_sum(outputs2_temp * p2_temp, 2)
 
 
-            v = tf.concat(1, [self.v1, self.v2])
+            v = tf.concat([self.v1, self.v2],1)# 1.0及以后版本：tensors在前，数字在后
             v_size = hidden_size * 2
 
             mlp_hidden_size = 50
@@ -1256,7 +1260,7 @@ class CNN(object):
 
         # Combine all the pooled features
         num_filters_total = 2 * num_filters * len(filter_sizes)
-        self.h_pool = tf.concat(3, pooled_outputs_s1+pooled_outputs_s2)
+        self.h_pool = tf.concat(pooled_outputs_s1+pooled_outputs_s2,3)
         self.h_pool_flat = tf.reshape(self.h_pool, [-1, num_filters_total])
 
         # Add dropout

@@ -33,7 +33,6 @@ tf.flags.DEFINE_boolean("blind", False, "blind(default: 'False')")
 # models
 tf.flags.DEFINE_string("model", "RNN", "model(default: 'RNN')")
 
-
 # Model Hyperparameters
 '''  RNN '''
 tf.flags.DEFINE_boolean("share_rep_weights", True, "share_rep_weights")
@@ -61,6 +60,7 @@ tf.flags.DEFINE_boolean("log_device_placement", False, "Log placement of ops on 
 
 FLAGS = tf.flags.FLAGS
 FLAGS._parse_flags()
+# FLAGS.flag_values_dict()
 print("\nParameters:")
 for attr, value in sorted(FLAGS.__flags.items()):
     print(("{}={}".format(attr.upper(), value)))
