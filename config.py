@@ -11,8 +11,8 @@ else:
 DATA_PATH = CWD + "/data"
 RECORD_PATH = CWD + "/record"
 
-GOOGLE_WORD2VEC_PATH = "/home/jianxiang/data/word2vec/GoogleNews/GoogleNews-vectors-negative300.bin"
-BLLIP_WORD2VEC_PATH = "/home/jianxiang/data/BLLIP_parsed/bllip.vectors.bin"
+GOOGLE_WORD2VEC_PATH = "/home/dejian/data/word2vec/GoogleNews/GoogleNews-vectors-negative300.bin"
+BLLIP_WORD2VEC_PATH = "/home/dejian/data/BLLIP_parsed/bllip.vectors.bin"
 ZH_WORD2VEC_PATH = "/home/dejian/data/word2vec/zh-Gigaword-300.txt"
 
 
