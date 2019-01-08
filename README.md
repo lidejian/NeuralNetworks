@@ -1,6 +1,6 @@
 1. 需要安装的软件
-	Python 2.7
-	tensorflow
+	Python 3.6
+	tensorflow 1.2
 
 2. 目录介绍
 	2.1 BLLIP：处理BLLIP数据相关代码
