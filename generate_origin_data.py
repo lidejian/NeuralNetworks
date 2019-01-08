@@ -43,21 +43,29 @@ with open('en_dev_relation_格式化.json',"r") as f,\
             end=arg2Span[0][1]
         else:
             end=arg2Span[1][1]
-        print(r['ID'], end='\t')
+        print(r['ID']-35707,'\t', r['ID'],end='\t')
 
-        
+        conn = r['Connective']['CharacterSpanList']
+        if len(conn) ==1:
+            if conn[0][0] < start:
+                start = conn[0][0]
+            if conn[0][1] > end:
+                end=conn[0][1]
+                
         
         num1=arg1Span[0][1]#暂时记录arg1结尾位置
         num2=arg2Span[0][0]#记录arg2开头位置
         
         if len(arg1Span)==2:# 如果有插入语，读入插入语
             raw.seek(arg1Span[0][1])
-            parenthesis=raw.read(arg1Span[1][0]-arg1Span[0][1])
+            if arg1Span[1][0]-arg1Span[0][1] > 6:
+                parenthesis=raw.read(arg1Span[1][0]-arg1Span[0][1])
             num1=arg1Span[1][1]
 #             print('par:',parenthesis)
         if len(arg2Span)==2:# 如果有插入语
             raw.seek(arg2Span[0][1])
-            parenthesis=raw.read(arg2Span[1][0]-arg2Span[0][1])
+            if arg2Span[1][0]-arg2Span[0][1] > 6:
+                parenthesis=raw.read(arg2Span[1][0]-arg2Span[0][1])
 #             print('par:',parenthesis)
         
 
@@ -73,15 +81,15 @@ with open('en_dev_relation_格式化.json',"r") as f,\
         sen = sen.replace('\n','')#去除\n
         
         
-        if int(r['ID'])==35712:
-            print(start,num1,num2,end)
-            print(arg1Span,end='--')
-            print(arg2Span,start,end)
+#         if int(r['ID'])==35712:
+#             print(start,num1,num2,end)
+#             print(arg1Span,end='--')
+#             print(arg2Span,start,end)
         
-        print(num2-num1)
-        if num2-num1>30 or num2-num1<0:
-            print(arg1Span,end='--')
-            print(arg2Span,start,end)
+        print(num2-num1,'\t',end-start,end='\t')
+        if num2-num1>12 or num2-num1<0:
+#             print(arg1Span,end='--')
+#             print(arg2Span,start,end)
             raw.seek(start,0)
             sen1=raw.read(num1-start)
             
@@ -92,15 +100,18 @@ with open('en_dev_relation_格式化.json',"r") as f,\
             
             sen3=sen3.replace(parenthesis,' ')
             sen3=sen3.replace('\n','')
-            print(sen)
-            print('-'*20)
-            print(sen3)
+#             print(sen)
+#             print('-'*20)
+#             print(sen3)
             sen=sen3
             
-            
+        print(len(sen))
 #         print(sen)
 #         print(sense)
 #         print(dict_sense_to_label[sense])
         fsentence.write(sen+'\n')
         fsence.write(sense+'\n')
         flabel.write(str(dict_sense_to_label[sense])+'\n')
+
+        
+        
