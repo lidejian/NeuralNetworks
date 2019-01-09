@@ -1,15 +1,17 @@
 import json
 dict_sense_to_label = {
+    'Temporal':15,
     'Temporal.Asynchronous.Precedence': 0,
     'Temporal.Asynchronous.Succession': 1,
     'Temporal.Synchrony': 2,
+    'Contingency':16,
     'Contingency.Cause.Reason': 3,
     'Contingency.Cause.Result': 4,
     'Contingency.Condition': 5,
-    'Comparison':6,
+    'Comparison':17,
     'Comparison.Contrast': 6,
     'Comparison.Concession': 7,
-    'Expansion':8,
+    'Expansion':18,
     'Expansion.Conjunction': 8,
     'Expansion.Instantiation': 9,
     'Expansion.Restatement': 10,
@@ -19,17 +21,18 @@ dict_sense_to_label = {
     'EntRel': 14,
 }
 
-with open('en_dev_relation_格式化.json',"r") as f,\
-        open('sentence','w') as fsentence,\
-        open('sence','w') as fsence,\
-        open('label','w') as flabel:
+cnt=1
+with open('relations_格式化.json',"r", encoding='UTF-8') as f,\
+        open('sentence','w', encoding='UTF-8') as fsentence,\
+        open('sense','w', encoding='UTF-8') as fsense,\
+        open('label','w', encoding='UTF-8') as flabel:
     jrelation=json.load(f)
     docid=0
     for r in jrelation:
         if docid!=r['DocID']:
             if docid!=0:
                 raw.close()
-            raw =  open('./raw/%s'%r['DocID'],"r")
+            raw =  open('./raw/%s'%r['DocID'],"r", encoding='UTF-8', errors='ignore')
             print(r['DocID'])
             docid=r['DocID']
 #         print(raw.read())
@@ -37,7 +40,8 @@ with open('en_dev_relation_格式化.json',"r") as f,\
         arg2Span=r['Arg2']['CharacterSpanList']
         sense=r['Sense'][0]
         ty=r['Type']
-        print(r['ID']-35707,'\t', r['ID'],end='\t')
+        print(cnt,'\t', r['ID'])
+        cnt+=1
         parenthesis='###hhh#####'
         midd='######hhh####'
         
@@ -67,7 +71,7 @@ with open('en_dev_relation_格式化.json',"r") as f,\
             raw.seek(arg2Span[0][1],0)
             if arg2Span[1][0]-arg2Span[0][1] > 10:
                 parenthesis=raw.read(arg2Span[1][0]-arg2Span[0][1])
-            print('par:',arg2Span[0][1],arg2Span[1][0],parenthesis)
+#             print('par:',arg2Span[0][1],arg2Span[1][0],parenthesis)
         
         #如果arg1和arg2位置反了
         if num2-num1<0:
@@ -82,15 +86,13 @@ with open('en_dev_relation_格式化.json',"r") as f,\
             if conn[0][1] > end:
                 end=conn[0][1]
                 
-        print(start,num1,num2,end,end='\t')
+#         print(start,num1,num2,end,end='\t')
         
         raw.seek(start,0)
         sen=raw.read(end-start)
         sen = sen.replace(parenthesis,' ')#去除插入语
         
-        
-        
-        print(num2-num1,'\t',end-start,end='\t')
+#         print(num2-num1,'\t',end-start,end='\t')
         
         #论元间相隔12个以上，认为不是连接词，去掉这部分。
         if num2-num1>12:
@@ -114,12 +116,13 @@ with open('en_dev_relation_格式化.json',"r") as f,\
 # #             print(sen3)
 #             sen=sen3
             
-        print(len(sen))
+#         print(len(sen))
 #         print(sen)
 #         print(sense)
 #         print(dict_sense_to_label[sense])
 
         sen = sen.replace('\n','')#去除\n
+        print(sen)
         fsentence.write(sen+'\n')
-        fsence.write(sense+'\n')
+        fsense.write(sense+'\n')
         flabel.write(str(dict_sense_to_label[sense])+'\n')
